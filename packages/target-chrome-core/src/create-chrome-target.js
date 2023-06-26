@@ -145,8 +145,12 @@ function createChromeTarget(
         }
       });
 
-      Network.loadingFailed(({ requestId }) => {
-        requestFailed(requestId);
+      Network.loadingFailed(({ requestId, canceled }) => {
+        if (canceled) {
+          requestEnded(requestId);
+        } else {
+          requestFailed(requestId);
+        }        
       });
     };
 
